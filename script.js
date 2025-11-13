@@ -80,7 +80,16 @@ function nextLap() {
             laps[Math.max(0, currentLap - 1)].scrollIntoView({ behavior: 'smooth' });
         }, 1500);
         spawnLapCars();
-        if (document.getElementById('engine-rev')) document.getElementById('engine-rev').play();
+        if // Play sound only after user interaction
+function playSound(id) {
+    const audio = document.getElementById(id);
+    if (audio) {
+        audio.play().catch(() => {
+            // Autoplay blocked — wait for click
+            document.body.addEventListener('click', () => audio.play(), { once: true });
+        });
+    }
+}
     } else {
         // Finish
         document.querySelectorAll('.stage.lap').forEach(lap => lap.classList.add('hidden'));
@@ -349,4 +358,5 @@ window.addEventListener('load', () => {
     document.querySelectorAll('.parallax-car img').forEach(img => {
         img.style.animationDelay = `-${Math.random() * 15}s`;
     });
+
 });
